@@ -5,7 +5,6 @@ from fastapi import FastAPI, HTTPException
 from models import serverInfoModel
 
 app = FastAPI()
-available_servers = []
 server_info_map = {}
 
 
@@ -21,11 +20,12 @@ async def read_add(ip: str = None, name: str = "ballgame"):
         return f"added server '{name}' (IP:{ip}) to available list"
     raise HTTPException(status_code=500, detail="server already registered")
 
+
 @app.get("/del")
-async def read_del(q: Union[str, None] = None):
-    if q in available_servers:
-        available_servers.remove(q)
-        return f"removed server {q} from available list"
+async def read_del(ip: str = None):
+    if ip in server_info_map.keys():
+        server_info_map.remove(ip)
+        return f"removed server {ip} from available list"
     raise HTTPException(status_code=404, detail="server not found")
 
 
