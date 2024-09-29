@@ -1,0 +1,10 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/prj-ballbrowser-test/ballbrowser-0', '.']
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'gcloud'
+    args: ['builds', 'submit', '--tag', 'gcr.io/prj-ballbrowser-test/ballbrowser-0']
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'gcloud'
+    args: ['run', 'deploy', 'ballbrowser-0', '--image', 'gcr.io/prj-ballbrowser-test/ballbrowser-0', '--platform', 'managed', '--region', 'us-central1', '--port', '8000', '--allow-unauthenticated']
+    
