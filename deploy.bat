@@ -1,6 +1,11 @@
-call docker buildx build --platform linux/amd64 -t gcr.io/prj-ballbrowser-test/ballbrowser-0 . || goto :error
-call gcloud builds submit --tag gcr.io/prj-ballbrowser-test/ballbrowser-0 || goto :error
-call gcloud run deploy ballbrowser-0 --image gcr.io/prj-ballbrowser-test/ballbrowser-0 --platform managed --region us-central1 --port 8000 --allow-unauthenticated || goto :error
+set APP_NAME=ballbrowser-0
+set DOCKER_TAG=gcr.io/prj-ballbrowser-test/%APP_NAME%
+
+REM building the docker image on windows will compile for windows
+REM the --platform linux/amd64 argument compiles for linux (what gCloud uses)
+call docker buildx build --platform linux/amd64 -t %DOCKER_TAG% . || goto :error
+call gcloud builds submit --tag %DOCKER_TAG% || goto :error
+call gcloud run deploy %APP_NAME% --image %DOCKER_TAG% --platform managed --region us-central1 --port 8000 --allow-unauthenticated || goto :error
 
 :error
 exit /b 1
