@@ -1,5 +1,6 @@
 set APP_NAME=ballbrowser-0
-set DOCKER_TAG=gcr.io/prj-ballbrowser-test/%APP_NAME%
+set PROJECT_ID=prj-ballbrowser-test
+set DOCKER_TAG=gcr.io/%PROJECT_ID%/%APP_NAME%
 
 REM building the docker image on windows will compile for windows
 REM the --platform linux/amd64 argument compiles for linux (what gCloud uses)
